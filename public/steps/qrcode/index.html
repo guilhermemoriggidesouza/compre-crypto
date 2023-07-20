@@ -1,0 +1,38 @@
+<div>
+    <div class="flex w-full border p-2 rounded-lg justify-between items-center">
+        <img src="media/chain.png" class="w-10 h-10">
+        <span id="copy-id-req-crypto" class="text-sm self-center "></span>
+        <button id="button-copy-id-req" class="rounded-lg p-2 text-sm bg-custom-color text-white">Copiar</button>
+    </div>
+    <div class="w-full my-8">
+        <img id="barcode-cripto" class="m-auto">
+    </div>
+    <p class="text-gray-500 my-8">Se preferir, você pode pagá-lo copiando e colando o código abaixo</p>
+    <span id="copy-key-req-crypto" class="text-gray-500 break-words w-full "></span>
+    <button id="cofirm-cotation-cripto" class="my-4 rounded-full w-full bg-custom-color text-white h-12">Copiar
+        chave</button>
+
+    <div class="flex justify-center">
+        <button id="open-confirm-cripto" onclick="openConfirm()"
+            class="my-4 m-auto rounded-lg bg-custom-color text-white p-2">
+            <img id="arrow-down-cripto" src="media/down.png" class="" />
+        </button>
+    </div>
+    <div id="infos-qrcode-cripto"
+        class="hidden flex flex-row text-gray-500 flex-wrap border p-2 rounded-lg justify-between items-center">
+        <p class="w-1/2">Cotação</p>
+        <p class="w-1/2">1<span id="de-confirm-cripto"></span> = <span id="cotacao-confirm-cripto"></span> BRL </p>
+        <p class="w-1/2">Taxas</p>
+        <p class="w-1/2"><span id="tax-confirm-cripto">0</span> BRL</p>
+        <p class="w-1/2">Taxa de Rede</p>
+        <p class="w-1/2"><span id="tax-web-confirm-cripto">0</span> BRL</p>
+        <p class="w-1/2">Você receberá</p>
+        <p class="w-1/2"><span id="receive-confirm-cripto">0</span> <span id="receive-name-confirm-cripto"></span>
+        </p>
+        <p class="w-1/2">Endereço</p>
+        <p class="w-1/2"><span id="pocker-value-confirm-cripto">0</span> </p>
+        <p class="w-1/2"><b>Total</b></p>
+        <p class="w-1/2"><b><span class="text-xl" id="tot-confirm-cripto">0</span> BRL</b></p>
+    </div>
+
+</div>

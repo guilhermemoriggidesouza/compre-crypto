@@ -1,0 +1,109 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+@tailwind screens;
+
+body {
+    margin: 0;
+    padding: 0;
+    font-family: Arial;
+    font-size: 1em;
+}
+
+@layer base {
+
+    input[type="number"]::-webkit-inner-spin-button,
+    input[type="number"]::-webkit-outer-spin-button {
+        -webkit-appearance: none;
+        margin: 0;
+    }
+}
+
+.background-image {
+    background-position: top;
+    background-repeat: no-repeat;
+    background-size: 100% 100%;
+    background-image: url('media/background.png');
+}
+
+.h-screen-more {
+    height: 150vh;
+}
+
+.text-primary {
+    color: #F18206;
+}
+
+@keyframes button-change {
+    from {
+        padding-right: 0px;
+        background-color: #101010;
+    }
+
+    to {
+        padding-right: 30px;
+        background-image: url("media/arrow.png") center no-repeat;
+        background-repeat: no-repeat;
+        background-position: 60%;
+        background-color: #F18206;
+    }
+}
+
+.bg-custom-button {
+    background-color: #101010;
+}
+
+.bg-custom-button:hover {
+    background-color: #F18206;
+    background-image: url("media/arrow.png");
+    background-repeat: no-repeat;
+    background-position: 60%;
+    padding-right: 30px;
+    animation: button-change .5s;
+}
+
+input[type="checkbox"]:focus {
+    border-color: #F18206;
+    box-shadow: 0 1px 1px rgba(0, 0, 0, 0.075) inset, 0 0 8px #F18206;
+    outline: 0 none;
+}
+
+
+.btn-grad {
+    background: linear-gradient(90deg, rgba(241,130,6,1) 0%, rgba(245,164,73,1) 15%, rgba(219,119,8,1) 100%);
+    padding: 15px 45px;
+    text-align: center;
+    transition: 0.5s;
+    background-size: 200% auto;
+    color: white;
+    display: block;
+}
+
+.btn-grad:hover {
+    background-position: right center;
+    color: #fff;
+    text-decoration: none;
+}
+
+.btn-outline {
+    border: 2 solid #F18206;
+}
+
+
+input[type="checkbox"] {
+    accent-color: #F18206;
+    color: white;
+}
+
+.bg-custom-color {
+    background-color: #101010;
+    transition: all .3s;
+}
+
+.bg-custom-color:hover {
+    background-color: #F18206;
+}
+
+.bg-custom-color:active {
+    background-color: #f19832;
+}

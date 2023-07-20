@@ -1,0 +1,75 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link href="output.css" rel="stylesheet">
+    <title>Compre Crypto na hora</title>
+</head>
+<script src="https://unpkg.com/imask"></script>
+
+<body>
+    <div id="modal-cripto-na-hora"></div>
+    <section class="bg-black flex flex-col justify-between background-image">
+        <div class="lg:h-min-screen flex flex-col justify-between">
+            <div class="flex flex-col lg:flex-row lg:items-start items-center">
+                <div
+                    class="flex flex-col w-96 my-12 md:items-center lg:items-end text-start lg:w-1/2 lg:my-40 md:my-12 text-white lg:px-28">
+                    <div>
+                        <div id="logo">
+                            <img src="media/logo.png" class="w-40" />
+                        </div>
+                        <div id="title">
+                            <h5 class="text-4xl"><b>Compre agora </br> sua Criptomoeda</br>preferida</b></h5>
+                        </div>
+                        <div id="subtitle">
+                            <h6 class="my-8">De modo fácil e seguro as melhores criptomoedas do mercado</h6>
+                        </div>
+                        <div class="flex">
+                            <div class="btn-grad rounded-full">
+                                Comprar
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="rigth-content lg:w-1/2 lg:my-40 md:mb-12 lg:px-28">
+                    <div class="bg-white relative shadow w-96 py-8 px-8 rounded-lg text-gray-800 hover:shadow-lg">
+                        <div id="content"></div>
+                        <div id='recaptcha' class="g-recaptcha" data-size="invisible"></div>
+                    </div>
+                </div>
+            </div>
+            <h5 class="text-4xl my-12 text-center w-1/2 mx-auto text-white"><b>Receba suas criptomoedas em <span
+                        class="text-primary">alguns minutos</span></b></h5>
+        </div>
+        <img src="media/numeros.png" class="hidden md:block mx-28 mb-8 lg:mt-40 my-12 w-auto self-center" />
+        <img src="media/numeros-mobile.png" class="md:hidden sm:block mx-28 mb-8 lg:mt-40 my-12 w-auto self-center" />
+    </section>
+    <section class="bg-white">
+        <div class="lg:flex justify-center my-28 lg:mx-40">
+            <div class="lg:w-1/2 w-100 m-12">
+                <p class="text-gray-800">Conheça nossa História</p>
+                <h5 class="text-4xl text-primary"><b>Descubra o Futuro das Transações</b></h5>
+            </div>
+            <div class="lg:w-1/2 w-100 text-gray-500 m-12">
+                <p>O site oferece uma plataforma segura e fácil de usar para a compra e venda de criptomoedas populares.
+                </p>
+                <p>Com uma equipe de suporte disponível 24 horas por dia e várias opções de pagamento, é adequado tanto
+                    para investidores experientes quanto para iniciantes.
+                </p>
+                <div>logos</div>
+            </div>
+        </div>
+    </section>
+</body>
+<script type="text/javascript" async=""
+    src="https://www.gstatic.com/recaptcha/releases/iZWPJyR27lB0cR4hL_xOX0GC/recaptcha__pt_br.js"
+    crossorigin="anonymous"
+    integrity="sha384-EG4cn6Z19qHiyJDcg0ZuoxDnvBL0IC062PpjB+kNqZb144mkZdmvaaYNoYJbT1oc"></script>
+<script src="https://www.google.com/recaptcha/api.js?render=6Lfl59MlAAAAADsJshGwpPBsWceFJTH4Kzi9X33-"></script>
+<script src="index.js"></script>
+<script src="steps/input/index.js"></script>
+<script src="steps/qrcode/index.js"></script>
+
+</html>

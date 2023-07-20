@@ -1,0 +1,62 @@
+<div id="input-step-cripto">
+    <p class="text-gray-400">
+        Envie
+    </p>
+    <div class="flex flex-wrap">
+        <select class="border px-4 appearance-none h-12 w-1/2 border-gray- rounded-l-lg focus:outline-none">
+            <option value="BRL">BRL</option>
+        </select>
+        <input id="de_qtd-input-cripto"
+            onkeydown="processChange({ input:this, refValue: 'de_qtd', willChangeValue: 'para_qtd' })"
+            class="border  text-right px-4 h-12 w-1/2 border-gray- rounded-r-lg focus:outline-none" type="number">
+    </div>
+    <p class="text-gray-400">
+        Receba
+    </p>
+    <div class="flex flex-wrap">
+        <select class="border px-4 appearance-none h-12 w-1/2 border-gray- rounded-l-lg focus:outline-none"
+            id="to-money-input-cripto" onchange="changeNamePocket(this)">
+            <option value="USDT">USDT</option>
+            <option value="BTC">BTC</option>
+        </select>
+        <input id="para_qtd-input-cripto"
+            onkeydown="processChange({ input:this, refValue: 'para_qtd', willChangeValue: 'de_qtd' })"
+            class="border text-right px-4 h-12 w-1/2 border-gray- rounded-r-lg focus:outline-none" type="number">
+    </div>
+    <p class="text-gray-400">
+        Carteira/Endereço (<span id="name-pocket-cripto">USDT TRX-20</span>)
+    </p>
+    <div class="flex">
+        <input id="pocket-input-cripto" class="border px-4 h-12 w-full border-gray- rounded-lg focus:outline-none">
+    </div>
+    <div class="my-4">
+        <div class="flex text-sm">
+            <div class="w-1/2">
+                <p>1 USDT</p>
+                <p>Spread</p>
+                <p>Taxa de Rede</p>
+            </div>
+            <div class="w-1/2">
+                <p><span id="cotacao-input-cripto">0</span> BRL</p>
+                <p><span id="taxa-input-cripto">0</span> BRL</p>
+                <p><span id="taxa_rede-input-cripto">0</span> BRL</p>
+            </div>
+        </div>
+        <p class="text-xl my-4">
+            <b><span class="text-primary" id="total-input-cripto">Total 0 BRL</span></b>
+        </p>
+    </div>
+    <div class="flex items-center mb-4">
+        <input onchange="verifyClickCheckBox(this)" type="checkbox"
+            class="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 rounded focus:ring-blue-500 dark:focus:ring-blue-600 dark:ring-offset-gray-800 focus:ring-2 dark:bg-gray-700 dark:border-gray-600">
+        <label class="ml-2 text-sm font-medium text-gray-800 dark:text-gray-300">
+            <div onclick="openModalTerms()">Li e aceito os
+                termos e condições</div>
+        </label>
+    </div>
+    <div class="inner-image-button">
+        <button id="button-next-input" onclick="nextStepInput()" disabled="true"
+            class="rounded-full w-full bg-gray-500 text-white h-12">Avançar</button>
+    </div>
+</div>
+<script src="steps/input/index.js"></script>
