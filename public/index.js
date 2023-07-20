@@ -2,7 +2,8 @@ const buildSteps = async (indexStep, params = {}) => {
     const INPUT_STEP = fetch("steps/input/index.html").then(async response => ({ page: await response.text() }))
     const CONFIRM_STEP = fetch("steps/confirm/index.html").then(async response => ({ page: await response.text(), onRender: () => buildConfirmScreen(params) }))
     const QR_CODE_STEP = fetch("steps/qrcode/index.html").then(async response => ({ page: await response.text(), onRender: () => buildQrCodeScreen(params) }))
-    const steps = await Promise.all([INPUT_STEP, CONFIRM_STEP, QR_CODE_STEP])
+    const FINISH_STEP = fetch("steps/finish/index.html").then(async response => ({ page: await response.text() }))
+    const steps = await Promise.all([INPUT_STEP, CONFIRM_STEP, QR_CODE_STEP, FINISH_STEP])
     document.getElementById("content").innerHTML = steps[indexStep].page
     if (steps[indexStep].onRender) {
         steps[indexStep].onRender()
@@ -12,25 +13,37 @@ const buildSteps = async (indexStep, params = {}) => {
 
 
 const buildQrCodeScreen = (values) => {
-    let valuesConfirm = JSON.parse(sessionStorage.getItem("cotacao"))
-    if (valuesConfirm) buildValuesConfirm(valuesConfirm)
+    buildValuesConfirm(values)
+    let triess = 0
+    document.getElementById("total-qrcode-cripto").innerHTML = !isNaN(parseFloat(values.total)) ? parseFloat(values.total).toFixed(2) : 0.00
     document.getElementById('barcode-cripto').src = values.image_qr_code;
     document.getElementById('copy-id-req-crypto').innerHTML = values.id;
     document.getElementById('copy-key-req-crypto').innerHTML = values.endereco;
-    setInterval(async () => {
-        const response = await fetch(`https://api-swap.api-pay.org/api/1fe1c674-f93d-4fd9-af09-d62dd82e573f/cotacao/detalhes-cobranca?cobranca_id=${values.id}`).then(res => res.json())
-        console.log(response)
+    const myInterval = setInterval(async () => {
+        triess++
+        if (triess == 300) {
+            timeoutScreen("content-qrcode-cripto", "Seu pedido expirou, caso tenha realizado o pagamento e não receber suas moedas dentro de alguns minutos, enter em contato com a nossa equipe")
+            clearInterval(myInterval)
+            return
+        }
+        let response = await fetch(`https://api-swap.api-pay.org/api/1fe1c674-f93d-4fd9-af09-d62dd82e573f/cotacao/detalhes-cobranca?cobranca_id=${values.id}`).then(res => res.json())
+
+        if (response.status == "Pago") {
+            clearInterval(myInterval)
+            buildSteps(3)
+            return
+        }
     }, 1000)
 }
 
 const buildValuesConfirm = ({
     carteira_nome_simples,
+    carteira_valor,
+    carteira_nome,
     cotacao,
     taxa,
     taxa_rede,
     quantidade,
-    carteira_valor,
-    carteira_nome,
     total
 }) => {
     document.getElementById("de-confirm-cripto").innerHTML = carteira_nome_simples
@@ -43,9 +56,37 @@ const buildValuesConfirm = ({
     if (document.getElementById("pocket-name-confirm-cripto")) document.getElementById("pocket-name-confirm-cripto").innerHTML = carteira_nome
     document.getElementById("tot-confirm-cripto").innerHTML = !isNaN(parseFloat(total)) ? parseFloat(total).toFixed(2) : 0.00
 }
+
+const timeoutScreen = (id, text) => {
+    document.getElementById(id).innerHTML = ` 
+    <p class="text-2xl my-4 text-center">Cotação Expirada</p>
+    <span class="text-gray-500 break-words w-full ">${text}</span>
+    <div class="inner-image-button">
+        <button onclick="sessionStorage.clear();buildSteps(0)"
+            class="my-4 rounded-full w-full bg-custom-color text-white h-12">Novo Pedido</button>
+    </div>`
+}
+
+const initCountdown = () => {
+    let countdownNumberEl = document.getElementById('countdown-number');
+    let countdown = 15;
+
+    countdownNumberEl.textContent = countdown;
+
+    return setInterval(function () {
+        countdown = --countdown <= 0 ? 15 : countdown;
+        countdownNumberEl.textContent = countdown;
+        if (countdown == 15) {
+            timeoutScreen("confirmOkCripto", "Sua cotação expirou, clique em novo pedido para recomeçar")
+        }
+    }, 1000);
+}
 const buildConfirmScreen = (values) => {
     buildValuesConfirm(values)
+    const countdown = initCountdown()
     document.getElementById("cofirm-cotation-cripto").addEventListener("click", async () => {
+        clearInterval(countdown)
+        document.getElementById("countdown").classList.add("hidden")
         token = await grecaptcha.execute();
         document.getElementById("loading-req-cripto").classList.remove("hidden")
         document.getElementById("cofirm-cotation-cripto").classList.remove("bg-custom-color")
@@ -63,7 +104,7 @@ const buildConfirmScreen = (values) => {
                 })
             }
         ).then(res => res.json())
-        buildSteps(2, response)
+        buildSteps(2, { ...values, ...response })
 
     })
 }
@@ -83,13 +124,12 @@ const makeCotation = async (cotation) => {
     ).then(res => res.json())
     buildSteps(1, { ...cotation, cotacao_id: responseCotation.id })
 }
-
+const mapPocketName = {
+    'BTC': 'BTC Mainnet',
+    'USDT': 'USDT TRX-20',
+}
 const nextStepInput = async () => {
     const pocket = document.getElementById("pocket-input-cripto")
-    const mapPocketName = {
-        'BTC': 'BTC Mainnet',
-        'USDT': 'USDT TRX-20',
-    }
     const toMoney = document.getElementById("to-money-input-cripto")
     let values = JSON.parse(sessionStorage.getItem("cotacao"))
     values = {
@@ -99,13 +139,29 @@ const nextStepInput = async () => {
         ...values
     }
     sessionStorage.setItem("cotacao", JSON.stringify(values))
+    token = await grecaptcha.execute();
+    makeCotation({ token, ...values })
+}
+
+window.onload = async () => {
     grecaptcha.ready(async () => {
         grecaptcha.render('recaptcha', {
             "sitekey": '6Lfl59MlAAAAADsJshGwpPBsWceFJTH4Kzi9X33-'
         })
-        token = await grecaptcha.execute();
-        makeCotation({ token, ...values })
-    })
-}
+    });
 
-window.onload = () => { buildSteps(0, { image_qr_code: 'data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAQAAAAEAAQMAAABmvDolAAAABlBMVEX///8AAABVwtN+AAADZ0lEQVR42uyYMY7zOgyER3ChkjewLmLY10oRwAZS5FoKfBH5BipVGJoH0slutnvFH6+KVeVFvgVskRwOib/zd/71mUiuVTAz5csQ6JeJUrqNZG0GGAG/biwYkefosmcNmLll++kkIPAe7W2TcO9RriNYpi1zbwtYmTHry68bcR2DLIM7G4iA5yMJyeyXEVLQGAD42AvgmH10mXxQ7tH9yIcPA5b2Wy56gfe3h5918cuAnm7LvDHpy1NPxvBTRD4MjCHPew8tyTxrNG+PBAwu+1ttBgBYjq8g5h3ATHKZEvwtngVMzDOrcB8DLnC56L9wDxldO4DT4PZQ3eCdFUWrlWtCeX7kCQCC3PdeeHsQ6Cr87o5o4toO4ChlCFqJAVoOnvEoUt7iWQACfAQKJsqdm0Yz5Av6t5v8fWBKuExVitblZUpSDoENfKn9CQDUNgTi6hK82QaNrz50sRlAE6xL8PsIuVs5TNQmnjGfBjyti7f+0m0sV5eyjz0w12YARxbAalPMcXUPA6R8idjHAW3E0VEfoNmugAqFqFi0AgCyDABvUd1yOr4Cg+N3Tn4cMMewER2TWYdynZgvHVkaAkbIYnWh3VBNjjpS7d3lyy5+HFA1WM26kObx9EedccpbS/ptwFGWbsuli5Z7OoiB+l2vrzgBUH1ggsbuGB/2MUiZrGKbAcbwVFqEPEeI1cVl6OXbsn4ccISn3VuwTNOUYxl6NAUkKUMvZX4wo2MuR7UmcMdZwAjeSdMHXDr1D9C3PSbThgAd5P3iVGB7USWRRS/4itOAoGkvCmBeqxTtOJe3GacFwCVZYGVJW1hp3E1JvhTm84DGba0oHSlcN+uGXKYKNAWYW/CaZUeTjDo+p28n9nlAo7mH7G8moo7aaExIuaAZYEosZqvU5OwQvwDZk/klICcAmu3mP8k8W1jV7OkIfx3bAZh1GFNxFa4Vx7Czkn7BWcBEeLMNTHaBmnsGsCHAtmpVNNNsoY2ZVNlH6epZgG0X1Qyrf1g3HmvYyUb4ZgDb/D8XesfmXx3X+v0VZwCB92grMh3YmctcwxHNl39oBNA/bxXWu6Fux9QM47lA9rtm+3OzB3NcX1NzAwDg7SYf1HATXVXJdXxt1U4AjsW+duSQfYTYdtHv4c0//D7wd/7O/z//BQAA////nbWUNvfEKwAAAABJRU5ErkJggg==' }) }
+    const urlParams = new URLSearchParams(window.location.search);
+    const pedido = urlParams.get('pedido');
+    if (pedido) {
+        let response = await fetch(`https://api-swap.api-pay.org/api/1fe1c674-f93d-4fd9-af09-d62dd82e573f/cotacao/detalhes-cobranca?cobranca_id=${pedido}`).then(res => res.json())
+        buildSteps(2, {
+            carteira_nome: mapPocketName[response.cotacao.moeda_para],
+            carteira_nome_simples: response.cotacao.moeda_para,
+            carteira_valor: response.cotacao.endereco,
+            ...response.cotacao,
+            ...response
+        })
+        return
+    }
+    buildSteps(0)
+}

@@ -9,3 +9,18 @@ function openConfirm() {
         document.getElementById("infos-qrcode-cripto").classList.add("hidden")
     }
 }
+
+function copyClipBoard(id) {
+    var copyText = document.getElementById(id);
+    navigator.clipboard.writeText(copyText.innerHTML);
+    Toastify({
+        text: "Copiado!!",
+        style: {
+            background: "#F18206"
+        },
+        duration: 4500,
+        destination: "https://github.com/apvarun/toastify-js",
+        gravity: "top",
+        position: 'left',
+    }).showToast();
+}

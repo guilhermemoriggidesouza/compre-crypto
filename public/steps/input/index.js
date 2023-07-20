@@ -10,7 +10,11 @@ const changeNamePocket = (input) => {
         'USDT': 'USDT TRX-20',
     }
     document.getElementById("name-pocket-cripto").innerHTML = mapPocketName[input.value]
-
+    changeValuesSendReceive({
+        input: document.getElementById("de_qtd-input-cripto"),
+        refValue: 'de_qtd',
+        willChangeValue: 'para_qtd',
+    })
 }
 
 function debounce(func, timeout = 300) {
@@ -50,7 +54,6 @@ const changeValuesSendReceive = async ({ input, refValue, willChangeValue }) => 
     const inputToChange = document.getElementById(`${willChangeValue}-input-cripto`)
     const values = await fetch(`https://api-swap.api-pay.org/api/1fe1c674-f93d-4fd9-af09-d62dd82e573f/cotacao?de_moeda=BRL&para_moeda=${toMoney.value}&${refValue}=${input.value}&cotacao_req_id=${uuidv4()}`).then(res => res.json())
     sessionStorage.setItem("cotacao", JSON.stringify(values))
-    console.log(values)
     const validationErrors = [addErrorVerify(
         parseInt(values.preco) > 10000,
         "de_max-10000-error",

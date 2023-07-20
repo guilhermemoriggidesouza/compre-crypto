@@ -70,7 +70,7 @@ input[type="checkbox"]:focus {
 
 
 .btn-grad {
-    background: linear-gradient(90deg, rgba(241,130,6,1) 0%, rgba(245,164,73,1) 15%, rgba(219,119,8,1) 100%);
+    background: linear-gradient(90deg, rgba(241, 130, 6, 1) 0%, rgba(245, 164, 73, 1) 15%, rgba(219, 119, 8, 1) 100%);
     padding: 15px 45px;
     text-align: center;
     transition: 0.5s;
@@ -106,4 +106,48 @@ input[type="checkbox"] {
 
 .bg-custom-color:active {
     background-color: #f19832;
+}
+
+#countdown {
+    position: absolute;
+    top: 20px;
+    right: 20px;
+    height: 40px;
+    width: 40px;
+    text-align: center;
+}
+
+#countdown-number {
+    color: #F18206;
+    display: inline-block;
+    line-height: 40px;
+}
+
+#countdown svg {
+    position: absolute;
+    top: 0;
+    right: 0;
+    width: 40px;
+    height: 40px;
+    transform: rotateY(-180deg) rotateZ(-90deg);
+}
+
+#countdown svg circle {
+    stroke-dasharray: 113px;
+    stroke-dashoffset: 0px;
+    stroke-linecap: round;
+    stroke-width: 2px;
+    stroke: #F18206;
+    fill: none;
+    animation: countdown 15s linear infinite forwards;
+}
+
+@keyframes countdown {
+    from {
+        stroke-dashoffset: 0px;
+    }
+
+    to {
+        stroke-dashoffset: 113px;
+    }
 }

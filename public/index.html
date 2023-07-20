@@ -5,6 +5,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link href="output.css" rel="stylesheet">
+    <link href="toastify.css" rel="stylesheet">
     <title>Compre Crypto na hora</title>
 </head>
 <script src="https://unpkg.com/imask"></script>
@@ -15,7 +16,7 @@
         <div class="lg:h-min-screen flex flex-col justify-between">
             <div class="flex flex-col lg:flex-row lg:items-start items-center">
                 <div
-                    class="flex flex-col w-96 my-12 md:items-center lg:items-end text-start lg:w-1/2 lg:my-40 md:my-12 text-white lg:px-28">
+                    class="flex flex-col w-96 w-96 md:w-128 lg:w-96 my-12 md:items-center lg:items-end text-start lg:w-1/2 lg:my-40 md:my-12 text-white lg:px-28">
                     <div>
                         <div id="logo">
                             <img src="media/logo.png" class="w-40" />
@@ -33,8 +34,9 @@
                         </div>
                     </div>
                 </div>
-                <div class="rigth-content lg:w-1/2 lg:my-40 md:mb-12 lg:px-28">
-                    <div class="bg-white relative shadow w-96 py-8 px-8 rounded-lg text-gray-800 hover:shadow-lg">
+                <div class="rigth-content lg:w-1/2 lg:my-40 md:mb-12 lg:px-12 xl:px-28">
+                    <div
+                        class="bg-white relative shadow w-96 w-96 md:w-128 lg:w-96 xl:w-128 py-8 px-8 rounded-lg text-gray-800 hover:shadow-lg">
                         <div id="content"></div>
                         <div id='recaptcha' class="g-recaptcha" data-size="invisible"></div>
                     </div>
@@ -44,7 +46,7 @@
                         class="text-primary">alguns minutos</span></b></h5>
         </div>
         <img src="media/numeros.png" class="hidden md:block mx-28 mb-8 lg:mt-40 my-12 w-auto self-center" />
-        <img src="media/numeros-mobile.png" class="md:hidden sm:block mx-28 mb-8 lg:mt-40 my-12 w-auto self-center" />
+        <img src="media/numeros-mobile.png" class="md:hidden mx-4 sm:block w-auto mb-8 lg:mt-40 my-12 self-center" />
     </section>
     <section class="bg-white">
         <div class="lg:flex justify-center my-28 lg:mx-40">
@@ -58,7 +60,14 @@
                 <p>Com uma equipe de suporte disponível 24 horas por dia e várias opções de pagamento, é adequado tanto
                     para investidores experientes quanto para iniciantes.
                 </p>
-                <div>logos</div>
+                <div class="flex">
+                    <a href="https://www.instagram.com/criptonahora/" target="_blank">
+                        <img src="media/insta.png" class="w-8 h-8 my-4" />
+                    </a>
+                    <a href="https://wa.me/message/WZ66QHYC4M23N1" target="_blank">
+                        <img src="media/whats.png" class="w-8 h-8 m-4" />
+                    </a>
+                </div>
             </div>
         </div>
     </section>
@@ -69,6 +78,7 @@
     integrity="sha384-EG4cn6Z19qHiyJDcg0ZuoxDnvBL0IC062PpjB+kNqZb144mkZdmvaaYNoYJbT1oc"></script>
 <script src="https://www.google.com/recaptcha/api.js?render=6Lfl59MlAAAAADsJshGwpPBsWceFJTH4Kzi9X33-"></script>
 <script src="index.js"></script>
+<script src="toastify.js"></script>
 <script src="steps/input/index.js"></script>
 <script src="steps/qrcode/index.js"></script>
 
