@@ -4,7 +4,7 @@ const buildSteps = async (indexStep, params = {}) => {
     const QR_CODE_STEP = fetch("steps/qrcode/index.html").then(async response => ({ page: await response.text(), onRender: () => buildQrCodeScreen(params) }))
     const FINISH_STEP = fetch("steps/finish/index.html").then(async response => ({ page: await response.text() }))
     const steps = await Promise.all([INPUT_STEP, CONFIRM_STEP, QR_CODE_STEP, FINISH_STEP])
-    document.getElementById("content").innerHTML = steps[indexStep].page
+    document.getElementById("content-cripto-page").innerHTML = steps[indexStep].page
     if (steps[indexStep].onRender) {
         steps[indexStep].onRender()
     }

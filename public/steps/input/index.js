@@ -90,7 +90,7 @@ const openModalTerms = () => {
     div.id = "bg-modal-cripto-na-hora";
     div.className = "h-screen fixed z-50 w-screen overflow-y-auto bg-black bg-opacity-30 flex justify-center items-start";
     div.innerHTML = `
-        <div id="content-modal-cripto-na-hora" class="lg:w-1/2 bg-white m-12 shadow p-12 rounded-lg text-gray-800 hover:shadow-lg ">
+        <div id="content-modal-cripto-na-hora" class="lg:w-1/2 bg-white m-8 md:m-12 shadow p-12 rounded-lg text-gray-800 hover:shadow-lg ">
             <b>Termo de Uso para Plataforma de Venda de Criptomoedas</b>
             </br>
             <hr/> 
