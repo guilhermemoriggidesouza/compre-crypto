@@ -67,9 +67,9 @@ const changeValuesSendReceive = async ({ input, refValue, willChangeValue }) => 
         document.getElementById("para_qtd-input-cripto")
     ),
     addErrorVerify(
-        parseInt(values.preco) < 50,
-        "de_min-50-error",
-        "Quantidade Mínima de 50.00",
+        parseInt(values.preco) < 100,
+        "de_min-100-error",
+        "Quantidade Mínima de 100.00",
         document.getElementById("de_qtd-input-cripto")
     )]
     if (validationErrors.some(error => error)) {

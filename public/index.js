@@ -2,7 +2,7 @@ const buildSteps = async (indexStep, params = {}) => {
     const INPUT_STEP = fetch("steps/input/index.html").then(async response => ({ page: await response.text() }))
     const CONFIRM_STEP = fetch("steps/confirm/index.html").then(async response => ({ page: await response.text(), onRender: () => buildConfirmScreen(params) }))
     const QR_CODE_STEP = fetch("steps/qrcode/index.html").then(async response => ({ page: await response.text(), onRender: () => buildQrCodeScreen(params) }))
-    const FINISH_STEP = fetch("steps/finish/index.html").then(async response => ({ page: await response.text() }))
+    const FINISH_STEP = fetch("steps/finish/index.html").then(async response => ({ page: await response.text(), onRender: () => buildFinishScreen(params) }))
     const steps = await Promise.all([INPUT_STEP, CONFIRM_STEP, QR_CODE_STEP, FINISH_STEP])
     document.getElementById("content-cripto-page").innerHTML = steps[indexStep].page
     if (steps[indexStep].onRender) {
@@ -10,10 +10,16 @@ const buildSteps = async (indexStep, params = {}) => {
     }
 }
 
+const buildFinishScreen = ({ hash }) => {
+    document.getElementById("loading-req-cripto-finish").classList.add("hidden")
+    document.getElementById("hash-gen").classList.remove("hidden")
+    document.getElementById("hash-text-value").innerHTML = hash
+}
+
 const handlerAddValue = (e) => {
     let valueToSum = document.getElementById("de_qtd-input-cripto").value
     valueToSum = valueToSum == "" ? 0 : parseInt(valueToSum)
-    document.getElementById("de_qtd-input-cripto").value = parseInt(50) + valueToSum
+    document.getElementById("de_qtd-input-cripto").value = parseInt(100) + valueToSum
 }
 
 const buildQrCodeScreen = (values) => {
@@ -25,16 +31,15 @@ const buildQrCodeScreen = (values) => {
     document.getElementById('copy-key-req-crypto').innerHTML = values.endereco;
     const myInterval = setInterval(async () => {
         triess++
-        if (triess == 300) {
+        if (triess == 300 && values.hash_status == -1) {
             timeoutScreen("content-qrcode-cripto", "Seu pedido expirou, caso tenha realizado o pagamento e não receber suas moedas dentro de alguns minutos, enter em contato com a nossa equipe")
             clearInterval(myInterval)
             return
         }
         let response = await fetch(`https://api-swap.api-pay.org/api/1fe1c674-f93d-4fd9-af09-d62dd82e573f/cotacao/detalhes-cobranca?cobranca_id=${values.id}`).then(res => res.json())
 
-        if (response.status == "Pago") {
-            clearInterval(myInterval)
-            buildSteps(3)
+        if (response.status == "Pago" && values.hash_status == 3) {
+            buildSteps(3, { hash })
             return
         }
     }, 1000)

@@ -183116,3 +183116,10 @@ input[type="checkbox"] {
     stroke-dashoffset: 113px;
   }
 }
+.grecaptcha-badge {
+  display: none;
+}
+
+html {
+  overflow-x: hidden;
+}
