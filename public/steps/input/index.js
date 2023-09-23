@@ -32,6 +32,8 @@ const addErrorVerify = (condition, id, text, input) => {
         document.getElementById(id).remove()
     }
     if (condition) {
+        document.getElementById("button-next-input").classList.remove("bg-custom-button")
+        document.getElementById("button-next-input").disabled = true
         const span = document.createElement('span');
         span.id = id
         span.classList.add("text-red-500")
@@ -40,6 +42,28 @@ const addErrorVerify = (condition, id, text, input) => {
         return true
     }
     return false
+}
+
+const verifyAddress = (addressInput) => {
+    if (document.getElementById("address-error")) {
+        document.getElementById("address-error").remove()
+    }
+    const mapPocketName = {
+        'BTC': 'BTC',
+        'USDT': 'TRX',
+    }
+    const pocketName = document.getElementById("to-money-input-cripto").value
+    console.log(addressInput.value, mapPocketName[pocketName], pocketName)
+    const isValid = WAValidator.validate(addressInput.value, mapPocketName[pocketName]);
+    if (!isValid) {
+        const span = document.createElement('span');
+        span.id = "address-error"
+        span.classList.add("text-red-500")
+        span.classList.add("block")
+        span.classList.add("errorinput")
+        span.innerHTML = "Carteira inválida"
+        addressInput.parentNode.insertBefore(span, addressInput.nextSibling)
+    }
 }
 
 const changeValuesSendReceive = async ({ input, refValue, willChangeValue }) => {
@@ -152,7 +176,7 @@ const openModalTerms = () => {
 }
 
 const verifyClickCheckBox = (checkbox) => {
-    if (checkbox.checked) {
+    if (checkbox.checked && document.getElementsByClassName("errorinput").length == 0) {
         document.getElementById("button-next-input").classList.add("bg-custom-button")
         document.getElementById("button-next-input").disabled = false
     } else {
