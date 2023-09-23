@@ -8,16 +8,15 @@
         </select>
         <input id="de_qtd-input-cripto"
             onkeydown="processChange({ input:this, refValue: 'de_qtd', willChangeValue: 'para_qtd' })"
-            class="border  text-right px-4 h-12 w-1/2 border-gray- rounded-r-lg focus:outline-none" type="number">
+            class="border text-right px-4 h-12 w-1/2 border-gray- rounded-r-lg focus:outline-none" type="number">
     </div>
     <p class="text-gray-400">
         Receba
     </p>
     <div class="flex flex-wrap">
-        <select class="border px-4 h-12 w-1/2 border-gray- rounded-l-lg focus:outline-none"
+        <select class="border appearance-none px-4 h-12 w-1/2 border-gray- rounded-l-lg focus:outline-none"
             id="to-money-input-cripto" onchange="changeNamePocket(this)">
             <option value="USDT">USDT</option>
-            <option value="BTC">BTC</option>
         </select>
         <input id="para_qtd-input-cripto"
             onkeydown="processChange({ input:this, refValue: 'para_qtd', willChangeValue: 'de_qtd' })"

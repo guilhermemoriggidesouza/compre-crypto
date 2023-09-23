@@ -7,7 +7,7 @@
     <link href="output.css" rel="stylesheet">
     <link href="toastify.css" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/4.1.1/animate.min.css" />
-    <title>Compre Crypto na hora</title>
+    <title>Compre Cripto na hora</title>
 </head>
 <script src="https://unpkg.com/imask"></script>
 
@@ -23,13 +23,14 @@
                             <img src="media/logo.png" class="w-40" />
                         </div>
                         <div id="title">
-                            <h5 class="text-4xl"><b>Compre agora </br> sua Criptomoeda</br>preferida</b></h5>
+                            <h5 class="text-4xl"><b> </br> Compre USDT </br> na hora</b></h5>
                         </div>
                         <div id="subtitle">
-                            <h6 class="my-8">De modo fácil e seguro as melhores criptomoedas do mercado</h6>
+                            <h6 class="my-8">De modo fácil e seguro</h6>
                         </div>
                         <div class="flex">
-                            <div class="btn-grad rounded-full">
+                            <div class="btn-grad rounded-full"
+                                onclick="handlerAddValue();processChange({ input:document.getElementById('de_qtd-input-cripto'), refValue: 'de_qtd', willChangeValue: 'para_qtd' })">
                                 Comprar
                             </div>
                         </div>
@@ -43,8 +44,9 @@
                     </div>
                 </div>
             </div>
-            <h5 class="animate__animated animate__bounceInUp text-4xl my-12 text-center w-1/2 mx-auto text-white"><b>Receba suas criptomoedas em <span
-                        class="text-primary">alguns minutos</span></b></h5>
+            <h5 class="animate__animated animate__bounceInUp text-4xl my-12 text-center w-1/2 mx-auto text-white">
+                <b>Receba suas criptomoedas em <span class="text-primary">alguns minutos</span></b>
+            </h5>
         </div>
         <img src="media/numeros.png" class="hidden md:block mx-28 mb-8 lg:mt-40 my-12 w-auto self-center" />
         <img src="media/numeros-mobile.png" class="md:hidden mx-4 sm:block w-auto mb-8 lg:mt-40 my-12 self-center" />

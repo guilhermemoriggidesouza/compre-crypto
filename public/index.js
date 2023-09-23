@@ -10,7 +10,11 @@ const buildSteps = async (indexStep, params = {}) => {
     }
 }
 
-
+const handlerAddValue = (e) => {
+    let valueToSum = document.getElementById("de_qtd-input-cripto").value
+    valueToSum = valueToSum == "" ? 0 : parseInt(valueToSum)
+    document.getElementById("de_qtd-input-cripto").value = parseInt(50) + valueToSum
+}
 
 const buildQrCodeScreen = (values) => {
     buildValuesConfirm(values)
