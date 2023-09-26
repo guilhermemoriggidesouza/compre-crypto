@@ -11,7 +11,6 @@ const buildSteps = async (indexStep, params = {}) => {
 }
 
 const buildFinishScreen = ({ hash }) => {
-    document.getElementById("loading-req-cripto-finish").classList.add("hidden")
     document.getElementById("hash-gen").classList.remove("hidden")
     document.getElementById("hash-text-value").innerHTML = hash
 }
