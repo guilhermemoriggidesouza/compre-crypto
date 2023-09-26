@@ -53,7 +53,6 @@ const verifyAddress = (addressInput) => {
         'USDT': 'TRX',
     }
     const pocketName = document.getElementById("to-money-input-cripto").value
-    console.log(addressInput.value, mapPocketName[pocketName], pocketName)
     const isValid = WAValidator.validate(addressInput.value, mapPocketName[pocketName]);
     if (!isValid) {
         const span = document.createElement('span');

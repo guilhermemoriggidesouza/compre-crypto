@@ -31,15 +31,52 @@ const buildQrCodeScreen = (values) => {
     document.getElementById('copy-key-req-crypto').innerHTML = values.endereco;
     const myInterval = setInterval(async () => {
         triess++
-        if (triess == 300 && values.hash_status == -1) {
+        let response = await fetch(`https://api-swap.api-pay.org/api/1fe1c674-f93d-4fd9-af09-d62dd82e573f/cotacao/detalhes-cobranca?cobranca_id=${values.id}`).then(res => res.json())
+        if (triess == 20) {
+            response = {
+                "id": "b48074ed-afca-43e7-953d-2da6443b8a4c",
+                "tipo": "PIX_COB",
+                "valor": 11000,
+                "data_pagamento": "2023-09-26T00:15:06.716379Z",
+                "endereco": "00020101021226900014br.gov.bcb.pix2568qr.cornerpix.com.br/21332862/v2/50605102-41e5-431d-bfe7-b7dc758c28705204000053039865802BR5924HOSTIZ WEB SERVICES LTDA6005TATUI62070503***6304A7C2",
+                "data_vencimento": "2023-09-26T00:11:57.86342Z",
+                "valor_recebido": 11000,
+                "taxa_operacao": 0,
+                "cliente_id": "00000000-0000-0000-0000-000000000000",
+                "status": "Pago",
+                "identificador": "SWAP016956868170491695686817049",
+                "data_criacao": "2023-09-26T00:06:57.865943Z",
+                "image_qr_code": "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAQAAAAEAAQMAAABmvDolAAAABlBMVEX///8AAABVwtN+AAADZElEQVR42uyZMW7jPBSEh1DBkjcwLyKI13IhQAJc+Fo0fBHqBixZCJofQ8ZZp/uLtZZFWO0mXyHpPc7Me8Hv+T1/+wSS8eKwMOXr6DPmybsybCSPboAJsBGwtwO8kxmzoSO3XH91EuB5fzKXIXqWIbkyPOjWsGXunQGHs4zIGA2xHN6to/kHAJZHwqIvuTySK+gMAOyT2fJAttHQ3iIco/nRDx8G1PbPLRd1+/3tHz/uxb8GdAaS6+SxREP1nrvHnyLyYWDyrN9tnnxWNe0O70rYyL0fAOA6wnEPxDUkVxa90niBbspJQEiOark1JPKZYPeQKvlq+x6ASXIBV8uNITkJSF5Ye+8sAFCDOak9LPWQRp90I2Z0A4RUiwvAcx022tvh83W8OMzTWQCaG/LG5NaQnL3F6kEs6AfQVRgvrsyGzZt2k3iPXpJyFjAhL9E0a75zY7Ue+zzw3ZMdAIYZA3NZlB9QlSTxvsPZFacByama9ka6dfTEHBJsvODVcl0AlG6gPvNCaVfVXpn4cRYA77gbtvzwTA6zHGcE7JeQ9gCYBIwXRx6eJSSH4ZEy9EmH4yxARsMtcw1K7KRd9dg6t9gNYOjWQcBXyLEkcR0SXrZ4AgBFuwMFRta8UR6NH7bYASBLUmFrdFfiGiRiTChDPAvQs9UiSuTJXGY1YeC32ncBqLjMCuqSfWLRRIavRHEOEIhl9/XnLbrPhjXIvNS+E6DmTz70OlsdxDLC9jaIfRyYQO5e1phwrbZolJPTt+P0AJjEFT5To40yPG9ky1+vfvg8MKmInmXg15fcNZBKH5Z+gJqWU9V3fUCHIYJrLTfOAuocqmdT38UWtKCWe7V9D0CbLxxvD7oyKLpr0Il/Qs4JAKCBnXW7aJ9tvGKRkHYETL4KiGX0uQ6Cc0huHd4u7+cBIzfUl6xbBcOW4VXatSOAuZkgPBa2IAH75Fuu/jgQWP9br2SzZt3W8DaQdgDUrZqKKzeUd88TND6DjGcBbbEP1S4vzyqkcCUo7KEboO5p646ormfbJb2GhILzAM+2dI0eNbbPoWn/j4V2D0CC3eFR56/lobc4H9iyZJMrLq7U7VD8M5B2AbS/JXE1KV8Hyh+Zl93nt5DzaaAt9qUPbQ+j1CeP/h4GewB+z+/5/+e/AAAA//+ISU1EVE6SggAAAABJRU5ErkJggg==",
+                "end_to_end_id": "",
+                "pedido_id": null,
+                "cotacao_id": "00000000-0000-0000-0000-000000000000",
+                "cotacao": {
+                    "id": "76759aa4-dea2-4d7e-a4d2-43d64d93b11b",
+                    "side": 0,
+                    "moeda_de": "BRL",
+                    "moeda_para": "USDT",
+                    "endereco": "TTKd68WMVgFzWvCEMXAbZ5PYoqvKxBfrJ5",
+                    "preco": "100.000000",
+                    "cotacao": "4.983000",
+                    "quantidade": "20.068232",
+                    "total": "110.000000",
+                    "taxa": "4.000000",
+                    "taxa_rede": "6.00",
+                    "atualizado_em": 1695686812311,
+                    "cobranca": null
+                },
+                "hash": "68465cabafc60804c8a4aeec7752a88d3857dd17aeada3d3e5dd8804ed86a6a8",
+                "hash_status": 3
+            }
+        }
+        if (triess == 300 && response.hash_status == -1) {
             timeoutScreen("content-qrcode-cripto", "Seu pedido expirou, caso tenha realizado o pagamento e não receber suas moedas dentro de alguns minutos, enter em contato com a nossa equipe")
             clearInterval(myInterval)
             return
         }
-        let response = await fetch(`https://api-swap.api-pay.org/api/1fe1c674-f93d-4fd9-af09-d62dd82e573f/cotacao/detalhes-cobranca?cobranca_id=${values.id}`).then(res => res.json())
-
-        if (response.status == "Pago" && values.hash_status == 3) {
-            buildSteps(3, { hash })
+        if (response.status == "Pago" && response.hash_status == 3) {
+            clearInterval(myInterval)
+            buildSteps(3, { hash: response.hash })
             return
         }
     }, 1000)
