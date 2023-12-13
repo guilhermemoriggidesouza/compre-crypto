@@ -14,7 +14,7 @@
         !function (f, b, e, v, n, t, s) {
             if (f.fbq) return; n = f.fbq = function () {
                 n.callMethod ?
-                n.callMethod.apply(n, arguments) : n.queue.push(arguments)
+                    n.callMethod.apply(n, arguments) : n.queue.push(arguments)
             };
             if (!f._fbq) f._fbq = n; n.push = n; n.loaded = !0; n.version = '2.0';
             n.queue = []; t = b.createElement(e); t.async = !0;
@@ -53,10 +53,12 @@
                         <div id="subtitle">
                             <h6 class="my-8">De modo fácil e seguro</h6>
                         </div>
-                        <div class="flex">
-                            <div class="btn-grad rounded-full"
-                                onclick="handlerAddValue();processChange({ input:document.getElementById('de_qtd-input-cripto'), refValue: 'de_qtd', willChangeValue: 'para_qtd' })">
+                        <div class="flex gap-3">
+                            <div class="btn-grad rounded-full" onclick="handlerOnBuyButtonClick();">
                                 Comprar
+                            </div>
+                            <div class="btn-grad rounded-full" onclick="buildStepsExchange(0)">
+                                Trocar
                             </div>
                         </div>
                     </div>
@@ -115,10 +117,11 @@
     crossorigin="anonymous"
     integrity="sha384-EG4cn6Z19qHiyJDcg0ZuoxDnvBL0IC062PpjB+kNqZb144mkZdmvaaYNoYJbT1oc"></script>
 <script src="https://www.google.com/recaptcha/api.js?render=6Lfl59MlAAAAADsJshGwpPBsWceFJTH4Kzi9X33-"></script>
-<script src="index.js"></script>
+<script src="steps/buy/index.js"></script>
+<script src="steps/exchange/index.js"></script>
 <script src="toastify.js"></script>
-<script src="steps/input/index.js"></script>
-<script src="steps/qrcode/index.js"></script>
+<script src="services/input.js"></script>
+<script src="steps/buy/qrcode/index.js"></script>
 <script src="wallet-adress-validator.min.js" type="module"></script>
 
 </html>

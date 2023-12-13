@@ -1,13 +1,19 @@
-const buildSteps = async (indexStep, params = {}) => {
-    const INPUT_STEP = fetch("steps/input/index.html").then(async response => ({ page: await response.text() }))
-    const CONFIRM_STEP = fetch("steps/confirm/index.html").then(async response => ({ page: await response.text(), onRender: () => buildConfirmScreen(params) }))
-    const QR_CODE_STEP = fetch("steps/qrcode/index.html").then(async response => ({ page: await response.text(), onRender: () => buildQrCodeScreen(params) }))
-    const FINISH_STEP = fetch("steps/finish/index.html").then(async response => ({ page: await response.text(), onRender: () => buildFinishScreen(params) }))
+const buildStepsBuy = async (indexStep, params = {}) => {
+    const INPUT_STEP = fetch("steps/buy/input/index.html").then(async response => ({ page: await response.text() }))
+    const CONFIRM_STEP = fetch("steps/buy/confirm/index.html").then(async response => ({ page: await response.text(), onRender: () => buildConfirmScreen(params) }))
+    const QR_CODE_STEP = fetch("steps/buy/qrcode/index.html").then(async response => ({ page: await response.text(), onRender: () => buildQrCodeScreen(params) }))
+    const FINISH_STEP = fetch("steps/buy/finish/index.html").then(async response => ({ page: await response.text(), onRender: () => buildFinishScreen(params) }))
     const steps = await Promise.all([INPUT_STEP, CONFIRM_STEP, QR_CODE_STEP, FINISH_STEP])
     document.getElementById("content-cripto-page").innerHTML = steps[indexStep].page
     if (steps[indexStep].onRender) {
         steps[indexStep].onRender()
     }
+}
+
+const handlerOnBuyButtonClick = async () => {
+    await buildStepsBuy(0)
+    handlerAddValue();
+    processChange({ input: document.getElementById('de_qtd-input-cripto'), refValue: 'de_qtd', willChangeValue: 'para_qtd' })
 }
 
 const buildFinishScreen = ({ hash }) => {
@@ -75,7 +81,7 @@ const buildQrCodeScreen = (values) => {
         }
         if (response.status == "Pago" && response.hash_status == 3) {
             clearInterval(myInterval)
-            buildSteps(3, { hash: response.hash })
+            buildStepsBuy(3, { hash: response.hash })
             return
         }
     }, 1000)
@@ -107,7 +113,7 @@ const timeoutScreen = (id, text) => {
     <p class="text-2xl my-4 text-center">Cotação Expirada</p>
     <span class="text-gray-500 break-words w-full ">${text}</span>
     <div class="inner-image-button">
-        <button onclick="sessionStorage.clear();buildSteps(0)"
+        <button onclick="sessionStorage.clear();buildStepsBuy(0)"
             class="my-4 rounded-full w-full bg-custom-color text-white h-12">Novo Pedido</button>
     </div>`
 }
@@ -126,6 +132,7 @@ const initCountdown = () => {
         }
     }, 1000);
 }
+
 const buildConfirmScreen = (values) => {
     buildValuesConfirm(values)
     const countdown = initCountdown()
@@ -149,7 +156,7 @@ const buildConfirmScreen = (values) => {
                 })
             }
         ).then(res => res.json())
-        buildSteps(2, { ...values, ...response })
+        buildStepsBuy(2, { ...values, ...response })
 
     })
 }
@@ -167,7 +174,7 @@ const makeCotation = async (cotation) => {
             })
         }
     ).then(res => res.json())
-    buildSteps(1, { ...cotation, cotacao_id: responseCotation.id })
+    buildStepsBuy(1, { ...cotation, cotacao_id: responseCotation.id })
 }
 const mapPocketName = {
     'BTC': 'BTC Mainnet',
@@ -199,7 +206,7 @@ window.onload = async () => {
     const pedido = urlParams.get('pedido');
     if (pedido) {
         let response = await fetch(`https://api-swap.api-pay.org/api/1fe1c674-f93d-4fd9-af09-d62dd82e573f/cotacao/detalhes-cobranca?cobranca_id=${pedido}`).then(res => res.json())
-        buildSteps(2, {
+        buildStepsBuy(2, {
             carteira_nome: mapPocketName[response.cotacao.moeda_para],
             carteira_nome_simples: response.cotacao.moeda_para,
             carteira_valor: response.cotacao.endereco,
@@ -208,5 +215,5 @@ window.onload = async () => {
         })
         return
     }
-    buildSteps(0)
+    buildStepsBuy(0)
 }

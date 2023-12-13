@@ -1,0 +1,70 @@
+<div id="exchange-step-cripto">
+    <p class="text-gray-400">
+        Você envia
+    </p>
+    <div class="flex flex-wrap">
+        <img class="icon-currency" id="from-money-exchange-image" />
+        <select id="from-money-exchange-cripto" onfocus="this.oldvalue = this.value;"
+            onchange="changeCurrencyExchange('from', this)"
+            class="border px-4 appearance-none h-12 w-1/2 border-gray- rounded-l-lg focus:outline-none">
+        </select>
+        <input id="de_qtd-exchange-cripto"
+            onkeydown="processChange({ input:this, refValue: 'de_qtd', willChangeValue: 'para_qtd' })"
+            class="border text-right px-4 h-12 w-1/2 border-gray- rounded-r-lg focus:outline-none" type="number">
+    </div>
+    <button type="button" tabindex="0" class="m-4" data-tnav="exchange-swap-currencies-button"><svg class="w-4 h-4"
+            viewBox="0 0 14 12" fill="none" xmlns="http://www.w3.org/2000/svg">
+            <path d="M0.888916 3.22266L3.11112 1.00045L5.33333 3.22266 M3.11108 10.7773L3.11108 0.999619"
+                stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"></path>
+            <path d="M13.1112 8.77779L10.889 11L8.66675 8.77779 M10.8889 1.22228L10.8889 11" stroke="currentColor"
+                stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"></path>
+        </svg></button>
+    <p class="text-gray-400">
+        E recebe
+    </p>
+    <div class="flex flex-wrap">
+        <img class="icon-currency" id="to-money-exchange-image" />
+        <select class="border appearance-none px-4 h-12 w-1/2 border-gray- rounded-l-lg focus:outline-none"
+            id="to-money-exchange-cripto" onfocus="this.oldvalue = this.value;"
+            onchange="changeCurrencyExchange('from', this)">
+        </select>
+        <input id="para_qtd-exchange-cripto" readonly
+            class="border text-right px-4 h-12 w-1/2 border-gray- rounded-r-lg focus:outline-none cursor-default"
+            type="number">
+    </div>
+    <p class="text-gray-400">
+        Carteira/Endereço (<span>USDT TRX-20</span>)
+    </p>
+    <input id="pocket-exchange-cripto" onchange="verifyAddress(this)"
+        class="border px-4 h-12 w-full border-gray- rounded-lg focus:outline-none">
+    <div class="my-4">
+        <div class="flex text-sm">
+            <div class="w-1/2">
+                <p>1 USDT</p>
+                <p>Spread</p>
+                <p>Taxa de Rede</p>
+            </div>
+            <div class="w-1/2">
+                <p><span id="cotacao-exchange-cripto">0</span> BRL</p>
+                <p><span id="taxa-exchange-cripto">0</span> BRL</p>
+                <p><span id="taxa_rede-exchange-cripto">0</span> BRL</p>
+            </div>
+        </div>
+        <p class="text-xl my-4">
+            <b><span class="text-primary" id="total-exchange-cripto">Total 0 BRL</span></b>
+        </p>
+    </div>
+    <div class="flex items-center mb-4">
+        <input onchange="verifyClickCheckBox(this)" type="checkbox"
+            class="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 rounded focus:ring-blue-500 dark:focus:ring-blue-600 dark:ring-offset-gray-800 focus:ring-2 dark:bg-gray-700 dark:border-gray-600">
+        <label class="ml-2 text-sm font-medium text-gray-800 dark:text-gray-300">
+            <div onclick="openModalTerms()">Li e aceito os
+                termos e condições</div>
+        </label>
+    </div>
+    <div class="inner-image-button">
+        <button id="button-next-input" onclick="nextStepInput()" disabled="true"
+            class="rounded-full w-full bg-gray-500 text-white h-12">Avançar</button>
+    </div>
+</div>
+<script src="steps/buy/input/index.js"></script>
