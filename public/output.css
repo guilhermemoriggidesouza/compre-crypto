@@ -183116,10 +183116,22 @@ input[type="checkbox"] {
     stroke-dashoffset: 113px;
   }
 }
+
 .grecaptcha-badge {
   display: none;
 }
 
 html {
   overflow-x: hidden;
+}
+
+.icon-currency {
+  width: 30px;
+  height: 30px;
+}
+
+.value-exchange-confirm {
+  font-weight: 900;
+  word-break: break-all;
+  margin-right: 20px;
 }

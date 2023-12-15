@@ -164,3 +164,7 @@ html {
     width: 30px;
     height: 30px;
 }
+
+.value-exchange-confirm {
+    font-weight: 900;
+}

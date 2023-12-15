@@ -1,8 +1,8 @@
 const buildStepsBuy = async (indexStep, params = {}) => {
-    const INPUT_STEP = fetch("steps/buy/input/index.html").then(async response => ({ page: await response.text() }))
-    const CONFIRM_STEP = fetch("steps/buy/confirm/index.html").then(async response => ({ page: await response.text(), onRender: () => buildConfirmScreen(params) }))
-    const QR_CODE_STEP = fetch("steps/buy/qrcode/index.html").then(async response => ({ page: await response.text(), onRender: () => buildQrCodeScreen(params) }))
-    const FINISH_STEP = fetch("steps/buy/finish/index.html").then(async response => ({ page: await response.text(), onRender: () => buildFinishScreen(params) }))
+    const INPUT_STEP = api("steps/buy/input/index.html").then(async response => ({ page: await response.text() }))
+    const CONFIRM_STEP = api("steps/buy/confirm/index.html").then(async response => ({ page: await response.text(), onRender: () => buildConfirmScreen(params) }))
+    const QR_CODE_STEP = api("steps/buy/qrcode/index.html").then(async response => ({ page: await response.text(), onRender: () => buildQrCodeScreen(params) }))
+    const FINISH_STEP = api("steps/buy/finish/index.html").then(async response => ({ page: await response.text(), onRender: () => buildFinishScreen(params) }))
     const steps = await Promise.all([INPUT_STEP, CONFIRM_STEP, QR_CODE_STEP, FINISH_STEP])
     document.getElementById("content-cripto-page").innerHTML = steps[indexStep].page
     if (steps[indexStep].onRender) {
@@ -36,7 +36,7 @@ const buildQrCodeScreen = (values) => {
     document.getElementById('copy-key-req-crypto').innerHTML = values.endereco;
     const myInterval = setInterval(async () => {
         triess++
-        let response = await fetch(`https://api-swap.api-pay.org/api/1fe1c674-f93d-4fd9-af09-d62dd82e573f/cotacao/detalhes-cobranca?cobranca_id=${values.id}`).then(res => res.json())
+        let response = await api(`https://api-swap.api-pay.org/api/1fe1c674-f93d-4fd9-af09-d62dd82e573f/cotacao/detalhes-cobranca?cobranca_id=${values.id}`).then(res => res.json())
         if (triess == 20) {
             response = {
                 "id": "b48074ed-afca-43e7-953d-2da6443b8a4c",
@@ -144,7 +144,7 @@ const buildConfirmScreen = (values) => {
         document.getElementById("cofirm-cotation-cripto").classList.remove("bg-custom-color")
         document.getElementById("cofirm-cotation-cripto").classList.add("bg-gray-500")
         document.getElementById("cofirm-cotation-cripto").disabled = true
-        const response = await fetch(`https://api-swap.api-pay.org/api/1fe1c674-f93d-4fd9-af09-d62dd82e573f/cotacao/emitir-cobranca`,
+        const response = await api(`https://api-swap.api-pay.org/api/1fe1c674-f93d-4fd9-af09-d62dd82e573f/cotacao/emitir-cobranca`,
             {
                 method: 'POST',
                 headers: {
@@ -162,7 +162,7 @@ const buildConfirmScreen = (values) => {
 }
 
 const makeCotation = async (cotation) => {
-    const responseCotation = await fetch(`https://api-swap.api-pay.org/api/1fe1c674-f93d-4fd9-af09-d62dd82e573f/cotacao?de_moeda=BRL&para_moeda=${cotation.moeda_para}&de_qtd=${parseFloat(cotation.preco).toFixed(2)}`,
+    const responseCotation = await api(`https://api-swap.api-pay.org/api/1fe1c674-f93d-4fd9-af09-d62dd82e573f/cotacao?de_moeda=BRL&para_moeda=${cotation.moeda_para}&de_qtd=${parseFloat(cotation.preco).toFixed(2)}`,
         {
             method: 'POST',
             headers: {
@@ -205,7 +205,7 @@ window.onload = async () => {
     const urlParams = new URLSearchParams(window.location.search);
     const pedido = urlParams.get('pedido');
     if (pedido) {
-        let response = await fetch(`https://api-swap.api-pay.org/api/1fe1c674-f93d-4fd9-af09-d62dd82e573f/cotacao/detalhes-cobranca?cobranca_id=${pedido}`).then(res => res.json())
+        let response = await api(`https://api-swap.api-pay.org/api/1fe1c674-f93d-4fd9-af09-d62dd82e573f/cotacao/detalhes-cobranca?cobranca_id=${pedido}`).then(res => res.json())
         buildStepsBuy(2, {
             carteira_nome: mapPocketName[response.cotacao.moeda_para],
             carteira_nome_simples: response.cotacao.moeda_para,
@@ -216,4 +216,106 @@ window.onload = async () => {
         return
     }
     buildStepsBuy(0)
+}
+
+function openConfirm() {
+    const open = !document.getElementById("infos-qrcode-cripto").classList.contains("hidden");
+    document.getElementById("arrow-down-cripto").style.transitionDuration = '.3s';
+    document.getElementById("arrow-down-cripto").style.transition = 'all';
+    document.getElementById("arrow-down-cripto").style.transform = `rotate(${open ? 0 : 180}deg)`;
+    if (!open) {
+        document.getElementById("infos-qrcode-cripto").classList.remove("hidden")
+    } else {
+        document.getElementById("infos-qrcode-cripto").classList.add("hidden")
+    }
+}
+
+function copyClipBoard(id) {
+    var copyText = document.getElementById(id);
+    navigator.clipboard.writeText(copyText.innerHTML);
+    Toastify({
+        text: "Copiado!!",
+        style: {
+            background: "#F18206"
+        },
+        duration: 4500,
+        gravity: "top",
+        position: 'left',
+    }).showToast();
+}
+
+const changeNamePocket = (input) => {
+    const mapPocketName = {
+        'BTC': 'BTC Mainnet',
+        'USDT': 'USDT TRX-20',
+    }
+    document.getElementById("name-pocket-cripto").innerHTML = mapPocketName[input.value]
+    changeValuesSendReceive({
+        input: document.getElementById("de_qtd-input-cripto"),
+        refValue: 'de_qtd',
+        willChangeValue: 'para_qtd',
+    })
+}
+
+const changeValuesSendReceive = async ({ input, refValue, willChangeValue }) => {
+    if (!input.value) return
+
+    const toMoney = document.getElementById("to-money-input-cripto")
+    const mapPropsQtd = {
+        'de_qtd': 'preco',
+        'para_qtd': 'quantidade'
+    }
+
+    const inputToChange = document.getElementById(`${willChangeValue}-input-cripto`)
+    const values = await api(`https://api-swap.api-pay.org/api/1fe1c674-f93d-4fd9-af09-d62dd82e573f/cotacao?de_moeda=BRL&para_moeda=${toMoney.value}&${refValue}=${input.value}&cotacao_req_id=${uuidv4()}`).then(res => res.json())
+    sessionStorage.setItem("cotacao", JSON.stringify(values))
+    const validationErrors = [addErrorVerify(
+        parseInt(values.preco) > 10000,
+        "de_max-10000-error",
+        "Quantidade Máxima de 10,000.00",
+        document.getElementById("de_qtd-input-cripto")
+    ),
+    addErrorVerify(
+        parseInt(values.quantidade) > 10000,
+        "para_max-10000-error",
+        "Quantidade Máxima de 10,000.00",
+        document.getElementById("para_qtd-input-cripto")
+    ),
+    addErrorVerify(
+        parseInt(values.preco) < 100,
+        "de_min-100-error",
+        "Quantidade Mínima de 100.00",
+        document.getElementById("de_qtd-input-cripto")
+    )]
+    if (validationErrors.some(error => error)) {
+        return
+    }
+    inputToChange.value = parseToCurrencyValue(values[mapPropsQtd[willChangeValue]])
+    document.getElementById("cotacao-input-cripto").innerHTML = parseToCurrencyValue(values.cotacao)
+    document.getElementById("taxa-input-cripto").innerHTML = parseToCurrencyValue(values.taxa)
+    document.getElementById("taxa_rede-input-cripto").innerHTML = parseToCurrencyValue(values.taxa_rede)
+    document.getElementById("total-input-cripto").innerHTML = `TOTAL ${parseToCurrencyValue(values.total)} BRL`
+}
+
+const processChange = debounce((args) => changeValuesSendReceive(args));
+
+const verifyAddress = (addressInput) => {
+    if (document.getElementById("address-error")) {
+        document.getElementById("address-error").remove()
+    }
+    const mapPocketName = {
+        'BTC': 'BTC',
+        'USDT': 'TRX',
+    }
+    const pocketName = document.getElementById("to-money-input-cripto").value
+    const isValid = WAValidator.validate(addressInput.value, mapPocketName[pocketName]);
+    if (!isValid) {
+        const span = document.createElement('span');
+        span.id = "address-error"
+        span.classList.add("text-red-500")
+        span.classList.add("block")
+        span.classList.add("errorinput")
+        span.innerHTML = "Carteira inválida"
+        addressInput.parentNode.insertBefore(span, addressInput.nextSibling)
+    }
 }

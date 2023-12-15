@@ -4,18 +4,7 @@ function uuidv4() {
         return v.toString(16);
     });
 }
-const changeNamePocket = (input) => {
-    const mapPocketName = {
-        'BTC': 'BTC Mainnet',
-        'USDT': 'USDT TRX-20',
-    }
-    document.getElementById("name-pocket-cripto").innerHTML = mapPocketName[input.value]
-    changeValuesSendReceive({
-        input: document.getElementById("de_qtd-input-cripto"),
-        refValue: 'de_qtd',
-        willChangeValue: 'para_qtd',
-    })
-}
+
 
 function debounce(func, timeout = 300) {
     let timer;
@@ -24,8 +13,6 @@ function debounce(func, timeout = 300) {
         timer = setTimeout(() => { func(args); }, timeout);
     };
 }
-
-const processChange = debounce((args) => changeValuesSendReceive(args));
 
 const addErrorVerify = (condition, id, text, input) => {
     if (document.getElementById(id)) {
@@ -42,68 +29,6 @@ const addErrorVerify = (condition, id, text, input) => {
         return true
     }
     return false
-}
-
-const verifyAddress = (addressInput) => {
-    if (document.getElementById("address-error")) {
-        document.getElementById("address-error").remove()
-    }
-    const mapPocketName = {
-        'BTC': 'BTC',
-        'USDT': 'TRX',
-    }
-    const pocketName = document.getElementById("to-money-input-cripto").value
-    const isValid = WAValidator.validate(addressInput.value, mapPocketName[pocketName]);
-    if (!isValid) {
-        const span = document.createElement('span');
-        span.id = "address-error"
-        span.classList.add("text-red-500")
-        span.classList.add("block")
-        span.classList.add("errorinput")
-        span.innerHTML = "Carteira inválida"
-        addressInput.parentNode.insertBefore(span, addressInput.nextSibling)
-    }
-}
-
-const changeValuesSendReceive = async ({ input, refValue, willChangeValue }) => {
-    if (!input.value) return
-
-    const toMoney = document.getElementById("to-money-input-cripto")
-    const mapPropsQtd = {
-        'de_qtd': 'preco',
-        'para_qtd': 'quantidade'
-    }
-
-    const inputToChange = document.getElementById(`${willChangeValue}-input-cripto`)
-    const values = await fetch(`https://api-swap.api-pay.org/api/1fe1c674-f93d-4fd9-af09-d62dd82e573f/cotacao?de_moeda=BRL&para_moeda=${toMoney.value}&${refValue}=${input.value}&cotacao_req_id=${uuidv4()}`).then(res => res.json())
-    sessionStorage.setItem("cotacao", JSON.stringify(values))
-    const validationErrors = [addErrorVerify(
-        parseInt(values.preco) > 10000,
-        "de_max-10000-error",
-        "Quantidade Máxima de 10,000.00",
-        document.getElementById("de_qtd-input-cripto")
-    ),
-    addErrorVerify(
-        parseInt(values.quantidade) > 10000,
-        "para_max-10000-error",
-        "Quantidade Máxima de 10,000.00",
-        document.getElementById("para_qtd-input-cripto")
-    ),
-    addErrorVerify(
-        parseInt(values.preco) < 100,
-        "de_min-100-error",
-        "Quantidade Mínima de 100.00",
-        document.getElementById("de_qtd-input-cripto")
-    )]
-    if (validationErrors.some(error => error)) {
-        return
-    }
-
-    inputToChange.value = parseFloat(values[mapPropsQtd[willChangeValue]]).toFixed(2).replace(",", '.')
-    document.getElementById("cotacao-input-cripto").innerHTML = !isNaN(parseFloat(values.cotacao)) ? parseFloat(values.cotacao).toFixed(2) : 0.00
-    document.getElementById("taxa-input-cripto").innerHTML = !isNaN(parseFloat(values.taxa)) ? parseFloat(values.taxa).toFixed(2) : 0.00
-    document.getElementById("taxa_rede-input-cripto").innerHTML = !isNaN(parseFloat(values.taxa_rede)) ? parseFloat(values.taxa_rede).toFixed(2) : 0.00
-    document.getElementById("total-input-cripto").innerHTML = `TOTAL ${!isNaN(parseFloat(values.total)) ? parseFloat(values.total).toFixed(2) : 0.00} BRL`
 }
 
 const openModalTerms = () => {
@@ -183,3 +108,6 @@ const verifyClickCheckBox = (checkbox) => {
         document.getElementById("button-next-input").disabled = true
     }
 }
+
+const parseToCurrencyValue = (value) => !isNaN(parseFloat(value)) ? parseFloat(value).toFixed(2).toLocaleString('pt-br', { style: 'currency', currency: 'BRL' }) : 0.00
+const parseToCurrencyWithoutFixed = (value) => !isNaN(parseFloat(value)) ? parseFloat(value) : 0.00
