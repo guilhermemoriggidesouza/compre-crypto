@@ -1,11 +1,34 @@
 <div>
-    <p class="text-2xl my-4 text-center">Pagamento Recebido</p>
-    <span class="text-gray-500 break-words w-full ">Seu pedido foi processado e gerado o hash,</span>
-    <div id="hash-gen" class="hidden">
-        <p id="hash-text-value" class="break-words"></p>
-    </div>
-    <div class="inner-image-button">
-        <button onclick="sessionStorage.clear();buildStepsBuy(0)"
-            class="my-4 rounded-full w-full bg-custom-color text-white h-12">Novo Pedido</button>
+    <div class="flex flex-row flex-wrap items-start justify-start">
+        <div class="w-1/2 mb-5">
+            <div id="confirming-finish-exchange">
+                <div class="rotating">
+                    <svg width="29" height="29" viewBox="0 0 29 29" fill="none" xmlns="http://www.w3.org/2000/svg">
+                        <path
+                            d="M14.5 29C12.5431 29 10.6428 28.6177 8.85576 27.8615C7.12822 27.1309 5.5791 26.083 4.24805 24.752C2.91699 23.4209 1.86914 21.8718 1.13848 20.1442C0.382324 18.3572 0 16.4569 0 14.5C0 13.9364 0.455957 13.4805 1.01953 13.4805C1.58311 13.4805 2.03906 13.9364 2.03906 14.5C2.03906 16.1822 2.36758 17.8135 3.01894 19.3513C3.64766 20.8353 4.54541 22.1691 5.68955 23.3133C6.83369 24.4574 8.16758 25.358 9.65156 25.9839C11.1865 26.6324 12.8178 26.9609 14.5 26.9609C16.1822 26.9609 17.8135 26.6324 19.3513 25.9811C20.8353 25.3523 22.1691 24.4546 23.3133 23.3104C24.4574 22.1663 25.358 20.8324 25.9839 19.3484C26.6324 17.8135 26.9609 16.1822 26.9609 14.5C26.9609 12.8178 26.6324 11.1865 25.9811 9.64873C25.3545 8.16831 24.4476 6.82296 23.3104 5.68672C22.1755 4.54801 20.8298 3.64096 19.3484 3.01611C17.8135 2.36758 16.1822 2.03906 14.5 2.03906C13.9364 2.03906 13.4805 1.58311 13.4805 1.01953C13.4805 0.455957 13.9364 0 14.5 0C16.4569 0 18.3572 0.382324 20.1442 1.13848C21.8718 1.86914 23.4209 2.91699 24.752 4.24805C26.083 5.5791 27.128 7.13105 27.8587 8.85576C28.6148 10.6428 28.9972 12.5431 28.9972 14.5C28.9972 16.4569 28.6148 18.3572 27.8587 20.1442C27.1309 21.8718 26.083 23.4209 24.752 24.752C23.4209 26.083 21.8689 27.128 20.1442 27.8587C18.3572 28.6177 16.4569 29 14.5 29Z"
+                            fill="#EE6114" />
+                    </svg>
+                </div>
+            </div>
+        </div>
+        <div class="w-1/2 mb-5">
+            <p>Confirmação da troca em progresso</p>
+        </div>
+        <div class="w-1/2 mb-5">
+            <div id="exchanging-finish-exchange">
+
+            </div>
+        </div>
+        <div class="w-1/2 mb-5">
+            <p> Exchanging em progresso</p>
+        </div>
+        <div class="w-1/2 mb-5">
+            <div id="sending-finish-exchange">
+
+            </div>
+        </div>
+        <div class="w-1/2 mb-5">
+            <p>Envio em progresso</p>
+        </div>
     </div>
 </div>

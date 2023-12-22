@@ -111,3 +111,16 @@ const verifyClickCheckBox = (checkbox) => {
 
 const parseToCurrencyValue = (value) => !isNaN(parseFloat(value)) ? parseFloat(value).toFixed(2).toLocaleString('pt-br', { style: 'currency', currency: 'BRL' }) : 0.00
 const parseToCurrencyWithoutFixed = (value) => !isNaN(parseFloat(value)) ? parseFloat(value) : 0.00
+function copyClipBoard(id) {
+    var copyText = document.getElementById(id);
+    navigator.clipboard.writeText(copyText.innerHTML);
+    Toastify({
+        text: "Copiado!!",
+        style: {
+            background: "#F18206"
+        },
+        duration: 4500,
+        gravity: "top",
+        position: 'left',
+    }).showToast();
+}

@@ -230,20 +230,6 @@ function openConfirm() {
     }
 }
 
-function copyClipBoard(id) {
-    var copyText = document.getElementById(id);
-    navigator.clipboard.writeText(copyText.innerHTML);
-    Toastify({
-        text: "Copiado!!",
-        style: {
-            background: "#F18206"
-        },
-        duration: 4500,
-        gravity: "top",
-        position: 'left',
-    }).showToast();
-}
-
 const changeNamePocket = (input) => {
     const mapPocketName = {
         'BTC': 'BTC Mainnet',

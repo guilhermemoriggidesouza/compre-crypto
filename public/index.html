@@ -8,6 +8,7 @@
     <link href="toastify.css" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/4.1.1/animate.min.css" />
     <script src="https://kit.fontawesome.com/da352cbcc7.js" crossorigin="anonymous"></script>
+
     <title>Compre Cripto na hora</title>
     <!-- Meta Pixel Code -->
     <script>
@@ -57,7 +58,7 @@
                             <div class="btn-grad rounded-full" onclick="handlerOnBuyButtonClick();">
                                 Comprar
                             </div>
-                            <div class="btn-grad rounded-full" onclick="buildStepsExchange(0)">
+                            <div class="btn-grad rounded-full" onclick="cleanExchange()">
                                 Trocar
                             </div>
                         </div>
@@ -124,5 +125,8 @@
 <script src="steps/exchange/index.js"></script>
 <script src="toastify.js"></script>
 <script src="wallet-adress-validator.min.js" type="module"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/crypto-js/4.2.0/crypto-js.min.js"
+    integrity="sha512-a+SUDuwNzXDvz4XrIcXHuCf089/iJAoN4lmrXJg18XnduKK6YlDHNRalv4yd1N40OKI80tFidF+rqTFKGPoWFQ=="
+    crossorigin="anonymous" referrerpolicy="no-referrer"></script>
 
 </html>
